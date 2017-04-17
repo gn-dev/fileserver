@@ -1,0 +1,1 @@
+nfs_exports: { "/srv    *(rw,sync,no_root_squash)" }
