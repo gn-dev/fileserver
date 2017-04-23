@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     end
     fileserver.vm.network "private_network", ip: "192.168.7.2"
     # config.vm.network "public_network"
-    fileserver.vm.synced_folder "files", "/srv", type: 'nfs'
+    fileserver.vm.synced_folder "files", "/srv/files", type: "rsync"
   end
 
   config.vm.provision "ansible" do |ansible|
