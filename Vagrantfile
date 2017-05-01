@@ -13,14 +13,26 @@ Vagrant.configure("2") do |config|
     end
     fileserver.vm.network "private_network", ip: "192.168.7.2"
     # config.vm.network "public_network"
-    fileserver.vm.synced_folder "files", "/srv/files", type: "rsync"
+  end
+
+  config.vm.define "scm" do |scm|
+    scm.vm.hostname = "scm01"
+    scm.vm.provider "virtualbox" do |vb|
+      vb.name = "scm01"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+    scm.vm.network "private_network", ip: "192.168.7.3"
+    scm.vm.network "forwarded_port", guest: 80, host: 8080
+    # config.vm.network "public_network"
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/playbook.yml"
+    ansible.playbook = "provisioning/site.yml"
     ansible.sudo = true
     ansible.groups = {
       "fileservers" => ["fileservers"],
+      "scm"         => ["scm"]
     }
   end
 end

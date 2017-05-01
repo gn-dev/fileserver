@@ -1,0 +1,7 @@
+- hosts: fileservers
+  roles:
+    - role: nfs
+
+- hosts: scm
+  roles:
+    - role: gitlab
